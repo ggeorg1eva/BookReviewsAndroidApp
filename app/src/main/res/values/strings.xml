@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BookReviewsApp</string>
+    <string-array name="isReadOptions">
+        <item>Select an option</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>

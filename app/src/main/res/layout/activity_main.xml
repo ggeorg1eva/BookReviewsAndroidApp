@@ -1,18 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
 
     <TextView
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Welcome to your book journal"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:columnCount="2">
+        <Button
+            android:id="@+id/addNewBookButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Book"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginBottom="16dp"/>
+        <Button
+            android:id="@+id/editDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit or Delete Book"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginBottom="16dp"/>
+    </GridLayout>
+
+
+    <TextView
+        android:id="@+id/noBooksText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You don't have any books"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/booksList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+
+</LinearLayout>
