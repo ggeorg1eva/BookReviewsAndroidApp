@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import org.modelmapper.ModelMapper;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -66,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<Book> selectAllBooks(){
+    public List<BookView> selectAllBooks(){
         String selectQuery = "SELECT * FROM books ORDER BY isRead; ";
 
         Cursor c = database.rawQuery(selectQuery, null);
@@ -85,7 +88,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             books.add(book);
         }
-        return books;
+        c.close();
+
+        ModelMapper mapper = new ModelMapper();
+        List<BookView> bookViewsList = books.stream()
+                .map(b -> mapper.map(b, BookView.class)).collect(Collectors.toList());
+
+        return bookViewsList;
     }
 
     @Override

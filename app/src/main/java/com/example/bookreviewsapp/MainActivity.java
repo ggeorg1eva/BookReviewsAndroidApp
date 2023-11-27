@@ -18,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
     private Button editDeleteBooksButton;
     private ListView booksList;
     private TextView noBooksText;
+    private List<BookView> books;
 
-    private List<Book> books;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fillBooksList();
+        getBooksFromDB();
 
         if (books != null && !books.isEmpty()) {
             booksList.setVisibility(View.VISIBLE);
@@ -62,11 +63,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //every time a book is added/edited/deleted it will refresh the table
-        fillBooksList();
+        getBooksFromDB();
     }
 
-    private void fillBooksList() {
-        DatabaseHelper dbHelper = null;
+    private void getBooksFromDB() {
         try {
             dbHelper = new DatabaseHelper(getApplicationContext());
 
@@ -82,7 +82,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setBooks(List<Book> books) {
+    private void populateListView() throws Exception{
+        dbHelper = new DatabaseHelper(getApplicationContext());
+        List<BookView> books = dbHelper.selectAllBooks();
+        //todo use logic from chat gpt with custom adapter
+        CustomArrayAdapter customArrayAdapter =
+                new CustomArrayAdapter(this,
+                        R.layout.book_item,
+                        books);
+        booksList.setAdapter(customArrayAdapter);
+//        listView.clearChoices();
+//        listView.setAdapter(customArrayAdapter);
+//        db.close();
+//        db = null;
+
+    }
+
+
+    private void setBooks(List<BookView> books) {
         this.books = books;
     }
 }

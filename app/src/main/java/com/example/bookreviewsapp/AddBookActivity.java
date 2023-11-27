@@ -35,6 +35,7 @@ public class AddBookActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateFields()) {
                     DatabaseHelper dbHelper = null;
+                    //TODO FIX CHECKED CONSTRAINT
                     try {
                         dbHelper = new DatabaseHelper(getApplicationContext());
                         dbHelper.insert(titleText.getText().toString(), authorText.getText().toString(),
