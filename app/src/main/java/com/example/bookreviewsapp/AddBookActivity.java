@@ -35,11 +35,12 @@ public class AddBookActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateFields()) {
                     DatabaseHelper dbHelper = null;
-                    //TODO FIX CHECKED CONSTRAINT
                     try {
                         dbHelper = new DatabaseHelper(getApplicationContext());
                         dbHelper.insert(titleText.getText().toString(), authorText.getText().toString(),
-                                yearOfPublishText.getText().toString(), isReadSpinner.getSelectedItem().toString());
+                                yearOfPublishText.getText().toString(), isReadSpinner.getSelectedItem().toString().trim());
+                        Toast.makeText(AddBookActivity.this, "You just added " + titleText.getText().toString() + " by " + authorText +
+                                "successfully!" + LocalDate.now().getYear(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AddBookActivity.this, MainActivity.class);
                         startActivity(intent);
 

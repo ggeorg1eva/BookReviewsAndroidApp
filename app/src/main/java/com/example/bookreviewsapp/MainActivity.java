@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bookreviewsapp.entity.view.BookView;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         getBooksFromDB();
 
         if (books != null && !books.isEmpty()) {
+            this.populateListView();
             booksList.setVisibility(View.VISIBLE);
             noBooksText.setVisibility(View.GONE);
         } else {
@@ -82,10 +85,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void populateListView() throws Exception{
+    private void populateListView(){
+        //todo add dummy book to books so that first line of list are titles of columns
         dbHelper = new DatabaseHelper(getApplicationContext());
         List<BookView> books = dbHelper.selectAllBooks();
-        //todo use logic from chat gpt with custom adapter
+
         CustomArrayAdapter customArrayAdapter =
                 new CustomArrayAdapter(this,
                         R.layout.book_item,

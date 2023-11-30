@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.bookreviewsapp.entity.Book;
+import com.example.bookreviewsapp.entity.view.BookView;
+
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public static final String DB_NAME = "books.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     private SQLiteDatabase database;
     public static final String CREATE_BOOKS_TABLE_QUERY = "CREATE TABLE books (" +
@@ -27,7 +30,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "author TEXT NOT NULL, " +
             "yearOfPublish INTEGER DEFAULT 0, " +
             "isRead TEXT NOT NULL, " +
-            "review TEXT DEFAULT 'No review yet', " +
             "UNIQUE (title, author), " +
             "CHECK (isRead IN ('Yes', 'No'))" +
             ");";
@@ -55,11 +57,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void update(Book book){
         String updateQuery = "UPDATE books SET " +
-                "title = ?, author = ?, yearOfPublish = ?, isRead = ?, review = ? " +
+                "title = ?, author = ?, yearOfPublish = ?, isRead = ? " +
                 " WHERE  id = ? ";
         database.execSQL(updateQuery, new Object[]{
                 book.getTitle(), book.getAuthor(), book.getYearOfPublish(),
-                book.getIsRead(), book.getReview(), book.getId()
+                book.getIsRead(), book.getId()
         });
     }
 
@@ -82,8 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     c.getString(c.getColumnIndex("title")),
                     c.getString(c.getColumnIndex("author")),
                     c.getInt(c.getColumnIndex("yearOfPublish")),
-                    c.getString(c.getColumnIndex("isRead")),
-                    c.getString(c.getColumnIndex("review"))
+                    c.getString(c.getColumnIndex("isRead"))
             );
 
             books.add(book);
