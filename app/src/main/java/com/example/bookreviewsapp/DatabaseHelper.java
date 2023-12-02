@@ -12,7 +12,9 @@ import com.example.bookreviewsapp.entity.view.BookView;
 
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +57,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         });
     }
 
+    /**
+     * Checks whether the input book has valid parameters
+     * @return false if the input is invalid
+     * @return true if it is ok
+     */
+    public boolean validateInput(String title, String author, String yearOfPublish, String isRead){
+        if(title == null || title.trim().isEmpty()){
+            return false;
+        }
+        if(author == null || author.trim().isEmpty()){
+            return false;
+        }
+        if(yearOfPublish == null || yearOfPublish.trim().isEmpty()
+                || Integer.parseInt(yearOfPublish) < 0
+                || Integer.parseInt(yearOfPublish) > LocalDate.now().getYear()){
+            return false;
+        }
+        if(isRead == null || isRead.trim().isEmpty() || (!isRead.equals("Yes") && !isRead.equals("No"))){
+            return false;
+        }
+
+        return true;
+    }
+
     public void update(Book book){
         String updateQuery = "UPDATE books SET " +
                 "title = ?, author = ?, yearOfPublish = ?, isRead = ? " +
@@ -65,12 +91,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         });
     }
 
-    public void delete(Book book){
+    public void delete(int bookId){
         String deleteQuery = "DELETE FROM books WHERE id = ?; ";
-        database.execSQL(deleteQuery, new Object[]{book.getId()});
+        database.execSQL(deleteQuery, new Object[]{bookId});
 
     }
 
+    /**
+     * Gets all books currently saved in the DB and sorts them by id ascending.
+     * @return returns a list of the books, but of type BookView which serves as a DTO between the layers of the application.
+     */
     public List<BookView> selectAllBooks(){
         String selectQuery = "SELECT * FROM books ORDER BY isRead; ";
 
@@ -93,7 +123,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ModelMapper mapper = new ModelMapper();
         List<BookView> bookViewsList = books.stream()
+                .sorted(Comparator.comparing(Book::getId))
                 .map(b -> mapper.map(b, BookView.class)).collect(Collectors.toList());
+
 
         return bookViewsList;
     }
@@ -107,8 +139,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    private void validateInput(String[] input){
-        //todo implement
-    }
 }
 

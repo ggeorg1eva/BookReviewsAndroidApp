@@ -12,12 +12,13 @@ import android.widget.Toast;
 
 import com.example.bookreviewsapp.entity.view.BookView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button addNewBookButton;
-    private Button editDeleteBooksButton;
+    private Button searchBookInApi;
     private ListView booksList;
     private TextView noBooksText;
     private List<BookView> books;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addNewBookButton = findViewById(R.id.addNewBookButton);
-        editDeleteBooksButton = findViewById(R.id.editDeleteButton);
+        searchBookInApi = findViewById(R.id.searchBookInGoogleBooks);
         booksList = findViewById(R.id.booksList);
         noBooksText = findViewById(R.id.noBooksText);
         addNewBookButton.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        editDeleteBooksButton.setOnClickListener(new View.OnClickListener(){
+        searchBookInApi.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         getBooksFromDB();
     }
 
+    /**
+     * Gets all books from BD in the form of BookView and populates the books variable with them.
+     */
     private void getBooksFromDB() {
         try {
             dbHelper = new DatabaseHelper(getApplicationContext());
@@ -87,13 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateListView(){
         //todo add dummy book to books so that first line of list are titles of columns
-        dbHelper = new DatabaseHelper(getApplicationContext());
-        List<BookView> books = dbHelper.selectAllBooks();
 
         CustomArrayAdapter customArrayAdapter =
                 new CustomArrayAdapter(this,
                         R.layout.book_item,
-                        books);
+                        this.books);
         booksList.setAdapter(customArrayAdapter);
 //        listView.clearChoices();
 //        listView.setAdapter(customArrayAdapter);
@@ -102,8 +104,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Sets the books field to have 1st element empty, so that in the custom Adapter class
+     * the first element of the BooksList can be the name of the columns;
+     * then populates the book field with the books from the DB as BookView instances
+     * @param books
+     */
     private void setBooks(List<BookView> books) {
-        this.books = books;
+        this.books = new ArrayList<>();
+        this.books.add(new BookView());
+        this.books.addAll(books);
     }
 }

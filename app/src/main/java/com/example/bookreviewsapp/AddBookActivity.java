@@ -37,6 +37,11 @@ public class AddBookActivity extends AppCompatActivity {
                     DatabaseHelper dbHelper = null;
                     try {
                         dbHelper = new DatabaseHelper(getApplicationContext());
+                        boolean isInputValid = dbHelper.validateInput(titleText.getText().toString(), authorText.getText().toString(),
+                                yearOfPublishText.getText().toString(), isReadSpinner.getSelectedItem().toString().trim());
+                        if (!isInputValid){
+                            throw new SQLException("The input is not valid! Please try again!");
+                        }
                         dbHelper.insert(titleText.getText().toString(), authorText.getText().toString(),
                                 yearOfPublishText.getText().toString(), isReadSpinner.getSelectedItem().toString().trim());
                         Toast.makeText(AddBookActivity.this, "You just added " + titleText.getText().toString() + " by " + authorText +
