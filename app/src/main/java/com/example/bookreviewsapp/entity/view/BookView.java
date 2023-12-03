@@ -4,11 +4,11 @@ public class BookView {
     private Integer id;
     private String title;
     private String author;
-    private Integer yearOfPublish;
+    private String yearOfPublish;
     private String isRead;
     public BookView(){}
 
-    public BookView(Integer id, String title, String author, Integer yearOfPublish, String isRead) {
+    public BookView(Integer id, String title, String author, String yearOfPublish, String isRead) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -40,11 +40,11 @@ public class BookView {
         this.author = author;
     }
 
-    public Integer getYearOfPublish() {
+    public String getYearOfPublish() {
         return yearOfPublish;
     }
 
-    public void setYearOfPublish(Integer yearOfPublish) {
+    public void setYearOfPublish(String yearOfPublish) {
         this.yearOfPublish = yearOfPublish;
     }
 

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,15 +63,19 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
             isRead.setText("Have I read it");
             editBtn.setVisibility(View.INVISIBLE);
             deleteBtn.setVisibility(View.INVISIBLE);
+
         } else {
             title.setText(bookView.getTitle());
             author.setText(bookView.getAuthor());
             isRead.setText(bookView.getIsRead());
             editBtn.setVisibility(View.VISIBLE);
             deleteBtn.setVisibility(View.VISIBLE);
+            convertView.setFocusable(true);
+            convertView.setClickable(true);
 
             editBtn.setOnClickListener(action -> {
-                //todo edit logic
+                BookView bookToEdit = getItem(position);
+                showEditForm(bookToEdit);
             });
 
             deleteBtn.setOnClickListener(v -> {
@@ -77,8 +83,92 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
                 showDeleteConfirmation(bookToDelete);
                 
             });
+
+            convertView.setOnClickListener(v -> {
+                showInformationAboutBook(bookView);
+            });
         }
+
         return convertView;
+    }
+
+    /**
+     * Shows full information about the book that has been clicked
+     * @param book
+     */
+    private void showInformationAboutBook(BookView book) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Book Information")
+                .setMessage("Title: " + book.getTitle() +
+                        "\nAuthor: " + book.getAuthor() +
+                        "\nYear of publish: " + book.getYearOfPublish() +
+                        "\nHave I read it: " + book.getIsRead())
+                .setNeutralButton("Close", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    /**
+     * Updates the book with the assigned values from the user after input validation.
+     * @param bookToEdit
+     */
+    private void showEditForm(BookView bookToEdit) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogView = inflater.inflate(R.layout.edit_book, null);
+
+        EditText editTextTitle = dialogView.findViewById(R.id.editTitleText);
+        EditText editTextAuthor = dialogView.findViewById(R.id.editAuthorText);
+        EditText editTextYear = dialogView.findViewById(R.id.editYearOfPublishText);
+        Spinner editIsReadSpinner = dialogView.findViewById(R.id.editIsReadSpinner);
+
+        // Prepopulate fields with current book data
+        editTextTitle.setText(bookToEdit.getTitle());
+        editTextAuthor.setText(bookToEdit.getAuthor());
+        editTextYear.setText(bookToEdit.getYearOfPublish());
+
+        // Get the adapter associated with the Spinner
+        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) editIsReadSpinner.getAdapter();
+
+        // Find the position of the desired value in the adapter
+        int position = adapter.getPosition(bookToEdit.getIsRead());
+        editIsReadSpinner.setSelection(position);
+
+
+        builder.setView(dialogView)
+                .setTitle("Edit book")
+                .setPositiveButton("Save changes", (dialog, which) -> {
+                    // Get values from dialog
+                    String title = editTextTitle.getText().toString();
+                    String author = editTextAuthor.getText().toString();
+                    String year = editTextYear.getText().toString();
+                    String isRead = editIsReadSpinner.getSelectedItem().toString();
+
+                    bookToEdit.setTitle(title);
+                    bookToEdit.setAuthor(author);
+                    bookToEdit.setYearOfPublish(year);
+                    bookToEdit.setIsRead(isRead);
+
+                    updateBookInDB(bookToEdit);
+                    notifyDataSetChanged();
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    /**
+     * updates the book in the DB
+     * @param bookToEdit
+     */
+    private void updateBookInDB(BookView bookToEdit) {
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        boolean isValid = dbHelper.validateInput(bookToEdit.getTitle(), bookToEdit.getAuthor(), bookToEdit.getYearOfPublish(), bookToEdit.getIsRead());
+
+        if (isValid){
+            dbHelper.update(bookToEdit);
+        }
+        dbHelper.close();
     }
 
     /**
@@ -100,6 +190,10 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
                 .show();
     }
 
+    /**
+     * deletes the book from the DB
+     * @param book
+     */
     private void deleteBookFromDB(BookView book) {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
 

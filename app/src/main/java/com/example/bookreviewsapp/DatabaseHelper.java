@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public void update(Book book){
+    public void update(BookView book){
         String updateQuery = "UPDATE books SET " +
                 "title = ?, author = ?, yearOfPublish = ?, isRead = ? " +
                 " WHERE  id = ? ";
