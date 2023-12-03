@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AlertDialogInfo" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/buttons</item> <!-- Primary color (buttons, etc.) -->
+        <item name="android:textColorPrimary">@color/black</item> <!-- Title and message color -->
+        <item name="android:backgroundTint">#D2B48C</item> <!-- Background color -->
+    </style>
+    <style name="AlertDialogWarn" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/buttons</item> <!-- Primary color (buttons, etc.) -->
+        <item name="android:textColorPrimary">@color/white</item> <!-- Title and message color -->
+        <item name="android:backgroundTint">#CD5C5C</item> <!-- Background color -->
+    </style>
+</resources>

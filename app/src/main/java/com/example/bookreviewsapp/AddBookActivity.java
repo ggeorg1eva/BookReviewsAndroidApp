@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 
 
 public class AddBookActivity extends AppCompatActivity {
+    private TextView addBookText;
     private EditText titleText, authorText, yearOfPublishText;
     private Spinner isReadSpinner;
     private Button submitButton, cancelButton;
@@ -25,6 +27,7 @@ public class AddBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_books_activity);
 
+        addBookText = findViewById(R.id.addBookText);
         titleText = findViewById(R.id.titleText);
         authorText = findViewById(R.id.authorText);
         yearOfPublishText = findViewById(R.id.yearOfPublishText);
@@ -32,15 +35,14 @@ public class AddBookActivity extends AppCompatActivity {
         submitButton = findViewById(R.id.submitButton);
         cancelButton = findViewById(R.id.cancelButton);
 
-        //values of the book to add
-        String title = titleText.getText().toString();
-        String author = authorText.getText().toString();
-        String year = yearOfPublishText.getText().toString();
-        String isRead = isReadSpinner.getSelectedItem().toString();
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //values of the book to add
+                String title = titleText.getText().toString();
+                String author = authorText.getText().toString();
+                String year = yearOfPublishText.getText().toString().isEmpty() ? "0" : yearOfPublishText.getText().toString();
+                String isRead = isReadSpinner.getSelectedItem().toString();
                 if (validateFields()) {
                     DatabaseHelper dbHelper = null;
                     try {
@@ -75,7 +77,7 @@ public class AddBookActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(AddBookActivity.this)
+                new AlertDialog.Builder(AddBookActivity.this, R.style.AlertDialogWarn)
                         .setTitle("Cancel")
                         .setMessage("Are you sure you want to cancel adding this book?")
                         .setPositiveButton("Yes", (dialog, which) -> {

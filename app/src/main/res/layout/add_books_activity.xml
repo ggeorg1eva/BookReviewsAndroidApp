@@ -9,7 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:backgroundTint="@color/form"
+        android:background="@color/form">
+        <TextView
+            android:id="@+id/addBookText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add a book to your journal"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/playpen_sans_semi_bold"
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
             android:id="@+id/titleText"
@@ -52,6 +63,7 @@
                 android:id="@+id/submitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/buttons"
                 android:text="Submit"
                 android:layout_marginStart="8dp"/>
 
@@ -59,6 +71,7 @@
                 android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/buttons"
                 android:text="Cancel"
                 android:layout_marginEnd="8dp"/>
         </LinearLayout>

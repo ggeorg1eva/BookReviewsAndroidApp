@@ -97,7 +97,7 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
      * @param book
      */
     private void showInformationAboutBook(BookView book) {
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext(), R.style.AlertDialogInfo)
                 .setTitle("Book Information")
                 .setMessage("Title: " + book.getTitle() +
                         "\nAuthor: " + book.getAuthor() +
@@ -113,7 +113,7 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
      * @param bookToEdit
      */
     private void showEditForm(BookView bookToEdit) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogInfo);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.edit_book, null);
 
@@ -177,7 +177,7 @@ public class CustomArrayAdapter extends ArrayAdapter<BookView> {
      * @param book - book to delete
      */
     private void showDeleteConfirmation(BookView book) {
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext(), R.style.AlertDialogWarn)
                 .setTitle("Delete Book")
                 .setMessage("Are you sure you want to delete this book (Title: " + book.getTitle() + ", Author: " + book.getAuthor() + ")?")
                 .setPositiveButton("Yes", (dialog, which) -> {

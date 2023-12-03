@@ -11,16 +11,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BookReviewsApp"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".SearchActivity"
             android:exported="true"
-            android:theme="@style/Theme.BookReviewsApp" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".AddBookActivity"
             android:exported="true"
-            android:theme="@style/Theme.BookReviewsApp" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

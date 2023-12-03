@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Base.Theme.BookReviewsApp">
+        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+
+        <item name="android:fontFamily">@font/playpen_sans_regular</item>
+        <item name="android:backgroundTint">@color/background</item>
+    </style>
+</resources>
