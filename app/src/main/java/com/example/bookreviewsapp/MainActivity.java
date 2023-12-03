@@ -31,24 +31,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addNewBookButton = findViewById(R.id.addNewBookButton);
-        searchBookInApi = findViewById(R.id.searchBookInGoogleBooks);
+        searchBookInApi = findViewById(R.id.searchBookInOpenLibraryButton);
         booksList = findViewById(R.id.booksList);
         noBooksText = findViewById(R.id.noBooksText);
-        addNewBookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
-                startActivity(intent);
-            }
+
+        //redirects to the Add book activity
+        addNewBookButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
+            startActivity(intent);
         });
-
-        searchBookInApi.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditDeleteBookActivity.class);
-                startActivity(intent);
-            }
+        //redirects to the Search book activity
+        searchBookInApi.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
         });
 
         getBooksFromDB();
