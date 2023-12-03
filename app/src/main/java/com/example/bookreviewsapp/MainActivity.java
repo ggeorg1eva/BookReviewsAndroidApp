@@ -72,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             dbHelper = new DatabaseHelper(getApplicationContext());
 
-            setBooks(dbHelper.selectAllBooks());
+            List<BookView> bookViews = dbHelper.selectAllBooks();
+            if (bookViews != null && !bookViews.isEmpty()){
+                setBooks(bookViews);
+            }
 
         } catch (Exception exception) {
             Toast.makeText(getApplicationContext(), exception.getLocalizedMessage(), Toast.LENGTH_LONG)
@@ -85,18 +88,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateListView(){
-        //todo add dummy book to books so that first line of list are titles of columns
-
         CustomArrayAdapter customArrayAdapter =
                 new CustomArrayAdapter(this,
                         R.layout.book_item,
                         this.books);
         booksList.setAdapter(customArrayAdapter);
-//        listView.clearChoices();
-//        listView.setAdapter(customArrayAdapter);
-//        db.close();
-//        db = null;
-
     }
 
     /**
